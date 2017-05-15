@@ -20,18 +20,24 @@ class dbNBA
         $this->error=true;
       }
   }
-  //Funcion para saber si hay error en la conexion
+  //Funcion error en la conexion
   function hayError(){
     return $this->error;
   }
-  // Funcion que muestra todos los equipos
-  public function listaEquipos(){
-  if ($this->error==true){
-      return null;
-  }else{
-    return $this->conexion->query("SELECT * FROM equipos ");
+  // muestrar todos los equipos
+    public function listaEquipos(){
+    if ($this->error==true){
+        return null;
+    }else{
+  	$tabla=[];
+  	$resultado = $this->conexion->query("SELECT * FROM equipos ");
+
+  	while ($fila = $resultado->fetch_assoc()){
+  		$tabla[]=$fila;
+  	}
+  	return $tabla;
+    }
   }
-}
   //Funciones para la inserccion
   public function insertarEquipo($nombre,$ciudad,$conferencia,$division){
     if ($this->error==true){
@@ -41,15 +47,21 @@ class dbNBA
       $this->conexion->query($sqlInserction);
     }
   }
-  // Mostrar ultimo equipo
+  // Mostrar ultimo
   public function mostrarUltimoEquipo($nombre){
       if ($this->error==true){
           return null;
       }else{
-        return $this->conexion->query("SELECT * FROM equipos WHERE nombre='".$nombre."'");
-      }
+		$tabla=[];
+			$resultado = $this->conexion->query("SELECT * FROM equipos WHERE nombre='".$nombre."'");
+
+		while ($fila=$resultado->fetch_assoc()){
+			$tabla[]=$fila;
+		}
+		return $tabla;
+	  }
     }
-    //Funciones para la inserccion
+    //Funcion inserccion
     public function actualizarEquipo($nombre,$ciudad,$conferencia,$division){
       if ($this->error==true){
           return null;
